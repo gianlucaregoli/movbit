@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}MovBit - About{% endblock %}
+
+{% block navbar %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">MovBit</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Film Project</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Profile</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<main role="main">
+
+  <section class="jumbotron text-center">
+    <div class="container">
+      <br>
+      <br>
+      <h1>MovBit</h1>
+      <p class="lead text-muted">
+        <center>
+            <br> 
+            <br> Investing in movies has always been attractive for fans of the industry. 
+            <br> The current structure of the sector though, sets many challenges to investors such as 
+            <br> high barriers connected to huge capital, that in turn lead to a very centralized system 
+            <br> with few major producers and less opportunity for emergent screen writers. 
+            <br> Moreover, since the box office revenues are easily concealable, investors do not have any 
+            <br> guarantee they will be paid off the true amount they deserve. 
+            <br> Blockchain technology provides a solution that simplifies and accelerates 
+            <br> the process for independent creators and new investors entering the market. 
+            <br> <p style="color:red">MovBit</p> Movibt, a platform powered by Ethereum where independent screenwriters 
+            <br> can fund their project by tokenizing the movie’s equity, 
+            <br> is the optimal solution to these problems.
+        </center>
+      </p>
+    </div>
+  </section>
+
+
+</main>
+{% endblock %}
+
+
+{% block footer %}
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>Album example is &copy; Bootstrap</p>
+  </div>
+</footer>
+{% endblock %}
+
+
+

@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Free Tokens!{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MovBit</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Produce</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="screenwriter.html">Start Project</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="freetoken.html">Free Tokens</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="ethraised.html">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="accounts.html">Accounts</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+</nav>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="d-flex justify-content-center mb-4 mt-2">
+            <h2> Send your free tokens!</h2>
+        </div>
+    </div>
+
+
+  <div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <form id="msform1" class="row text-center" action="{{ url_for('addBeneficiary') }}" method="POST" style="border:1.5px dashed #a6a6a6">
+
+              <div class = "row justify-content-center"> 
+                <p></p>
+                <h4>Add beneficiaries:</h4>
+                <div class="col text-center">
+                    <span class="d-inline-block mb-2" tabindex="0" data-toggle="tooltip" title="Insert the address where sending free tokens">
+                      <button type="button" class="btn btn-primary btn-light" disabled>Address:</button>
+                    </span>
+                    <select class="form-control form-control-sm" id="inputAddress1", name='inputAddress1'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                  </div>
+              <div class = "row justify-content-center">    
+                  <div class="col text-center">
+                    <span class="d-inline-block mb-2 mt-2" tabindex="0" data-toggle="tooltip" title="Insert amount of free tokens to send">
+                      <button type="button" class="btn btn-primary btn-light" disabled>Amount:</button>
+                    </span>
+                    <input type="float" class="form-control form-control-sm" id="inputEther1" name="inputEther1">
+                  </div>
+                </div>
+              </div>
+              <div class = "row justify-content-center"> 
+                <div class="text-center mt-2">
+                  <button type="submit" class="btn btn-success" id="addAddress" value="addAddress">Add</button>
+                </div>
+                <p></p>
+              </div>
+            </form>
+    </div>
+    <div class="col-sm">
+      <form id="msform2" class="row text-center" action="{{ url_for('addBeneficiary') }}" method="POST" style="border:1.5px dashed #a6a6a6">
+              <div class = "row justify-content-center">
+                <p></p>
+                <h4>Remove beneficiaries:</h4>   
+                <div class="col text-center">
+                    <span class="d-inline-block mb-2" tabindex="0" data-toggle="tooltip" title="Insert the address where removing free tokens">
+                      <button type="button" class="btn btn-primary btn-light" disabled>Address:</button>
+                    </span>
+                    <select class="form-control form-control-sm" id="inputAddress2", name='inputAddress2'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                  </div>
+              <div class = "row justify-content-center">    
+                  <div class="col text-center">
+                    <span class="d-inline-block mb-2 mt-2" tabindex="0" data-toggle="tooltip" title="Insert amount of free tokens to remove">
+                      <button type="button" class="btn btn-primary btn-light" disabled>Amount:</button>
+                    </span>
+                    <input type="float" class="form-control form-control-sm" id="inputEther2" name="inputEther2">
+                  </div>
+                </div>
+              </div>
+              <div class = "row justify-content-center"> 
+                <div class="text-center mt-2">
+                  <button type="submit" class="btn btn-danger" id="removeAddress" value="removeAddress">Remove</button>
+                </div>
+                <p></p>
+              </div>
+            </form>
+    </div>
+    <div class="col-sm">
+      <div class = "d-flex justify-content-sm-center">
+              <div class="alert alert-light" role="alert">
+                <h5 class="alert-heading">Value of a token:</h5>
+                <h5 class="alert-heading" style="font-family:'Lucida Console', monospace"> 1 ETH | {{rate}} $</h5>
+                <h5 class="alert-heading">How it works:</h5>
+                
+                  <ul>
+                  <li> Using <strong>Add beneficiaries</strong> and <strong>Add beneficiaries</strong> you can allocate to some of your
+                  collaborators a certain amount of free tokens (box amount). </li> 
+                  <li> Using <strong>Check beneficiaries</strong> you can see how many tokens you have assigned to a certain address.</li>
+                  <ul>
+               
+              </div>              
+            </div> 
+    </div>
+  </div>
+</div>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+            <form id="msform3" class="row text-center" action="{{ url_for('addBeneficiary') }}" method="POST" style="border:1.5px dashed #a6a6a6">
+                  <div class = "row justify-content-center">
+                    <p></p>
+                    <h4>Check beneficiaries:</h4>   
+                    <div class="col text-center">
+                        <span class="mb-2" tabindex="0" data-toggle="tooltip" title="Check how many tokens will this address currently receive">
+                          <button type="button" class="btn btn-primary btn-light" disabled>Address:</button>
+                        </span>
+                        <select class="form-control form-control-sm" id="inputAddress3", name='inputAddress3'>
+                          <option>Select the address</option>
+                          <option>Producer</option>
+                          <option>Collaborator 1</option>
+                          <option>Collaborator 2</option>
+                          <option>Investor 1</option>
+                          <option>Investor 2</option>
+                          <option>Investor 3</option>
+                          <option>Investor 4</option>
+                          <option>Consumer 1</option>
+                          <option>Consumer 2</option>
+                          <option>Consumer 3</option>
+                        </select>
+                      </div>
+                  </div>
+
+                  <div class = "row justify-content-center"> 
+                    <div class="text-center mt-2">
+                      <button type="submit" class="btn btn-warning" id="checkAddress" value="checkAddress">Check</button>
+                    </div>
+                    <p></p>
+                  </div>
+                </form>
+        </div>
+        <div class="col-sm">
+          <form id="msform6" class="row text-center" action="{{ url_for('addBeneficiary') }}" method="POST" style="border:1.5px dashed #a6a6a6">
+                  <div class = "row justify-content-center">
+                    <p></p>
+                    <h4>Check balance:</h4>   
+                    <div class="col text-center">
+                        <span class="mb-2" tabindex="0" data-toggle="tooltip" title="Insert the address of which you want to check the balance">
+                          <button type="button" class="btn btn-primary btn-light" disabled>Address:</button>
+                        </span>
+                        <select class="form-control form-control-sm" id="inputAddress4", name='inputAddress4'>
+                          <option>Select the address</option>
+                          <option>Producer</option>
+                          <option>Collaborator 1</option>
+                          <option>Collaborator 2</option>
+                          <option>Investor 1</option>
+                          <option>Investor 2</option>
+                          <option>Investor 3</option>
+                          <option>Investor 4</option>
+                          <option>Consumer 1</option>
+                          <option>Consumer 2</option>
+                          <option>Consumer 3</option>
+                        </select>
+                      </div>
+                  </div>
+
+                  <div class = "row justify-content-center"> 
+                    <div class="text-center mt-2">
+                      <button type="submit" class="btn btn-warning" id="checkBalance" value="checkBalance">Check</button>
+                    </div>
+                    <p></p>
+                  </div>
+                </form>
+        </div>
+        <div class="col-sm">
+               <!--all the messages go hereeeeee-->
+                {% if show_result %}  
+                  <div class = "d-flex justify-content-sm-center">
+                    <div class="alert alert-success text-center" role="alert">
+                      <h5 class="alert-heading">Well done!</h5>
+                      <p>{{message}}</p>
+                      <!--<hr>
+                      <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>-->
+                    </div>              
+                  </div>
+                {% endif %}
+
+              {% if show_warning %} 
+                <div class = "d-flex justify-content-sm-center">
+                  <div class="alert alert-danger text-center" role="alert">
+                    <h5 class="alert-heading">Something went wrong!</h5>
+                    <p>{{message}}</p>
+                    <!--<hr>
+                    <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>-->
+                  </div>              
+                </div>
+              {% endif %}
+            <!--end of the pop-up messages-->
+        </div>
+      </div>
+    </div>
+
+
+
+<div class="container"> 
+  <div class="d-flex justify-content-sm-center">   
+    <div class="row text-center mt-3">
+      <h3>Finalize your pitch</h3>
+      <p> If you allocated all the free tokens you want to your collaborators, you can press these two buttons (authenticating yourself 
+      with your address) to start gathering funds for your exciting project! When you launch <strong>PAY OUT FREE</strong> your collaborators 
+      will receive the tokens. Then verify with <strong>Check balance</strong> how many tokens your collaborators have. 
+      If you launch <strong>START CROWDSALE</strong> investors will be able to buy your tokens!</p>  
+      <form id="msform4" class="col-md-6 text-center" action="{{ url_for('addBeneficiary') }}" method="POST">
+        <div class = "row justify-content-center"> 
+          <div class="text-center mt-2">
+            <select class="form-control" id="inputAddress7", name='inputAddress7'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+            <button type="submit" class="btn btn-dark mt-2" id="payoutfree" name="payoutfree">Pay Out Free</button>
+          </div>
+        </div>
+      </form>   
+    
+      <form id="msform5" class="col-md-6 text-center" action="{{ url_for('addBeneficiary') }}" method="POST">
+        <div class = "row justify-content-center"> 
+          <div class="text-center mt-2">
+            <select class="form-control" id="inputAddress8", name='inputAddress8'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+            <button type="submit" class="btn btn-dark mt-2" id="allowCrowdsale" value="checkCrowdsale">Start Crowdsale</button>
+          </div>
+        </div>
+      </form> 
+    </div>
+  </div>
+</div>
+
+
+   {% if show_crowdsale %}
+              <div class="modal fade" id="myCrowdsale" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-center" id="exampleModalLongTitle">Crowdfunding has started!!</h5>
+                </div>
+                <div class="modal-body">
+                  <h6>Click the button below to see the ether raised!</h6>
+                </div>
+                <div class="modal-footer justify-content-center">
+                  <a role="button" class="btn btn-warning" href="ethraised.html" data-dismiss="modal">CHECK</a>
+                </div>
+                </div>
+              </div>
+              </div>
+              <script>
+                $(document).ready(function(){
+                        $("#myCrowdsale").modal("show");
+                    });
+              </script>
+              {% endif %}
+
+{% endblock %}
+
+<!--end of the page-->

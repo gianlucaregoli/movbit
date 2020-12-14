@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Producer dashboard{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MovBit</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Produce</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="screenwriter.html">Start Project</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="freetoken.html">Free Tokens</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="ethraised.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="accounts.html">Accounts</a>
+            </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+</nav>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container">
+        <div class="d-flex justify-content-center mb-4 mt-2">
+            <h2>Screenwriter dashboard</h2>
+        </div>
+        <p> In this dashboard you can manage the crowdsale of your movie: with the button <strong>Check</strong> you can visualize how much Ether you are gathering in real time.
+        But if the closing date is passed and nobody has already done that, click <strong>Finalize</strong>. When you and your team post the movie in our platform, make sure 
+        to click <strong>Allow sale</strong>: with this action our community will be able to buy it and stream it!</p>
+        <div class="row mt-4">
+          <div class="col-2 mt-2"></div>
+          <div class="col-8 text-center" style="border:3px double #e6b800">
+              <h5><strong>Movie:</strong> {{movie}} </h5>
+          </div>
+          <div class="col-2 mb-2"></div>
+        </div>
+</div>
+  
+
+  <div class="container mt-4" style="border:1.5px dashed #a6a6a6">
+  <div class="row">
+    <div class="col-sm">
+      <form id="msform13" class="row text-center" action="{{ url_for('ethRaised') }}" method="POST">
+            <div class = "row justify-content-center"> 
+            <p></p>
+            <h4> 1. Check money raised </h4>
+            <h6> Available during crowdfunding <h6>
+                <div class="col text-center">
+                    <select class="form-control form-control-sm mt-2" id="inputAddress16", name='inputAddress16'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                    <button type="submit" class="btn btn-success mt-2" id="checkRaised" name="checkRaised">Check</button>
+                </div>
+            </div>
+            <p></p>
+        </form>
+    </div>
+    <div class="col-sm">
+      <form id="msform13" class="row text-center" action="{{ url_for('ethRaised') }}" method="POST">
+            <div class = "row justify-content-center"> 
+            <p></p>
+            <h4> 2. Finalize crowdsale </h4>
+            <h6> Available after the closing date <h6>
+                <div class="col text-center">
+                    <select class="form-control form-control-sm mt-2" id="inputAddress31", name='inputAddress31'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                    <button type="submit" class="btn btn-success mt-2" id="finalizeInv" name="finalizeInv">Finalize</button>
+                </div>
+            </div>
+            <p></p>
+        </form>
+    </div>
+    <div class="col-sm">
+      <form id="msform13" class="row text-center" action="{{ url_for('ethRaised') }}" method="POST">
+            <div class = "row justify-content-center"> 
+            <p></p>
+            <h4> 3. Allow the sale </h4>
+            <h6> Click that once you post the movie <h6>
+                <div class="col text-center">
+                    <select class="form-control form-control-sm mt-2" id="inputAddress32", name='inputAddress32'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                    <button type="submit" class="btn btn-success mt-2" id="allowsale" name="allowsale">Allow</button>
+                </div>
+            </div>
+            <p></p>
+        </form>
+    </div>
+  </div>
+</div>
+    
+
+{% if show_result %}
+<div class="container">   
+  <div class = "d-flex justify-content-sm-center mt-5">
+    <div class="alert alert-success text-center" role="alert">
+      <h4 class="alert-heading">Well done!</h4>
+      <p>{{message}}</p>
+    </div>              
+  </div>
+</div>
+{% endif %}
+
+{% if show_warning %}
+<div class="container">   
+  <div class = "d-flex justify-content-sm-center mt-5">
+    <div class="alert alert-danger text-center" role="alert">
+      <h4 class="alert-heading">Something went wrong!</h4>
+      <p>{{message}}</p>
+    </div>              
+  </div>
+</div>
+{% endif %}
+
+
+{% endblock %}

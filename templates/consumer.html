@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Watch movies{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MovBit</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Watch</a>
+          </li>
+         
+          <li class="nav-item">
+            <a class="nav-link" href="accounts.html">Accounts</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+</nav>
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex justify-content-center mb-4 mt-3">
+            <h2>Start watching the movie!</h2>
+        </div>
+        <div class="text-center mb-5 mt-3">
+            <h5><font color="#666666">Enjoy the movie <strong> {{movie}} </strong> for the price of <strong>5 ETH</strong>. <br>
+              Authenticate yourself to pay and be ready with your popcorns!</h5>
+        </div>
+    </div>
+
+  
+    <div class="container">
+        <div class="d-flex justify-content-sm-center">
+            <form id="msform10" class="row g-2 col-md-8 text-center" action="{{ url_for('watch') }}" method="POST" style="border:2.5px dashed #a6a6a6">
+              <p></p>
+              <div class = "row justify-content-center"> 
+                <h4>Buy the movie:</h4>
+                <div class="col-md-6 text-center">
+                    <span class="d-inline-block mb-2" tabindex="0" data-toggle="tooltip" title="Insert your address!">
+                      <button type="button" class="btn btn-primary btn-light" disabled>Address:</button>
+                    </span>
+                    <select class="form-control form-control-sm" id="inputAddress20", name='inputAddress20'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                  </div>
+
+              <div class = "row justify-content-center"> 
+                <div class="text-center mt-2">
+                  <button type="submit" class="btn btn-success" id="buyFilm" value="buyFilm">BUY</button>
+                </div>
+              </div>
+              <p></p>
+              <p></p>
+            </form>
+
+        </div>
+    </div>
+
+
+
+    {% if show_video %}
+    <div class="container">
+        <div class="d-flex justify-content-sm-center mt-5"> 
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/WSLMN6g_Od4" allowfullscreen></iframe>
+                </div>
+    </div>
+    {% endif %}
+
+    {% if show_result %}
+    <div class="container">   
+      <div class = "d-flex justify-content-sm-center mt-5">
+        <div class="alert alert-success text-center" role="alert">
+          <h4 class="alert-heading">Well done!</h4>
+          <p>{{message}}</p>
+        </div>              
+      </div>
+    </div>
+    {% endif %}
+
+    {% if show_warning %}
+    <div class="container">   
+      <div class = "d-flex justify-content-sm-center mt-5">
+        <div class="alert alert-danger text-center" role="alert">
+          <h4 class="alert-heading">Something went Wrong!</h4>
+          <p>{{message}}</p>
+        </div>              
+      </div>
+    </div>
+    {% endif %}
+
+
+{% endblock %}

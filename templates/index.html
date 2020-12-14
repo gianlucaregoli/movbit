@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}MovBit{% endblock %}
+
+{% block navbar %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">MovBit</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="screenwriter.html">Produce</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="investor.html">Invest</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="consumer.html">Watch</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="accounts.html">Accounts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About</a>
+        </li>
+      </ul>
+
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<main role="main">
+
+  <section class="jumbotron text-center">
+    <div class="container">
+      <br>
+      <br>
+      <h1>MovBit</h1>
+      <p class="lead text-muted">A streaming platform powered by </br>Ethereum where independent screenwriters </br>and investors can easily meet.</p>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Screenwriter</title><image href="https://i.ibb.co/s9TMWwM/screenwriter.jpg" width="100%" height="120%"><text x="50%" y="50%" fill="#eceeef" dy=".3em">Screenwriter</text></svg>
+            <div class="card-body text-center">
+              <h5>Produce</h5>
+              <p class="card-text text-center">Are you an independet screewriter looking for funds to start your project? </p>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="btn-group">
+                  <!--qui dobbiamo mettere href di VIEW alla pagina a cui è riferito ognuno-->
+                  <!--button type="button" class="btn btn-sm btn-outline-secondary" href="screenwriter.html">Click here!</button-->
+                  <a href="screenwriter.html" class="btn btn-warning my-2">Click here!</a>
+                </div>
+                <!--<small class="text-muted">9 mins</small>-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Investors</title><image href="https://i.ibb.co/LvC8xYx/investor.jpg" width="100%" height="120%"><text x="50%" y="50%" fill="#eceeef" dy=".3em">Investors</text></svg>
+            <div class="card-body text-center">
+              <h5>Invest</h5>
+              <p class="card-text text-center">Want to invest in one of our movie projects and help the independent film industry? </p>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="btn-group">
+                  <!--qui dobbiamo mettere href di VIEW alla pagina a cui è riferito ognuno-->
+                  <!--button type="button" class="btn btn-sm btn-outline-secondary">Click here!</button-->
+                  <a href="investor.html" class="btn btn-warning my-2">Click here!</a>
+
+                </div>
+                <!--<small class="text-muted">9 mins</small>-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Consumers</title><image href="https://i.ibb.co/j9NdRjK/consumer.jpg" width="100%" height="120%"><text x="50%" y="50%" fill="#eceeef" dy=".3em">Consumers</text></svg>
+            <div class="card-body text-center">
+              <h5>Watch</h5>
+              <p class="card-text text-center">Do you want to have access to brand new and independent movies?</p>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="btn-group">
+                  <!--qui dobbiamo mettere href di VIEW alla pagina a cui è riferito ognuno-->
+                  <!--button type="button" class="btn btn-sm btn-outline-secondary">Click here!</button-->
+                  <a href="consumer.html" class="btn btn-warning my-2">Click here!</a>
+                </div>
+                <!--<small class="text-muted">9 mins</small>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+{% endblock %}
+
+
+{% block footer %}
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>Album example is &copy; Bootstrap</p>
+  </div>
+</footer>
+{% endblock %}
+
+
+

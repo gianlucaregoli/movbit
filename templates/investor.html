@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+{% block title %}Investor dashboard!{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MovBit</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Invest</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="accounts.html">Accounts</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+</nav>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="d-flex justify-content-center mb-4 mt-2">
+            <h2>Investor dashboard</h2>
+        </div>
+        <p> In this dashboard you can manage your investment in this movie: you can buy tokens, you can claim your money back in
+            the case the goal necessary to produce the movie is not reached, you will also be able once per year to claim your divided once
+            the movie is produced and is being sold! </p>
+        </div>
+        <!-- <div class="d-flex justify-content-center md-6 mb-4 mt-2" style="border:3px double #e6b800">
+            <h5><strong>Movie:</strong> {{movie}} </h5>
+        </div> -->
+
+        <div class="row mt-2">
+          <div class="col-2 mt-2"></div>
+          <div class="col-8 text-center" style="border:3px double #e6b800">
+              <h5><strong>Movie:</strong> {{movie}} </h5>
+          </div>
+          <div class="col-2 mb-2"></div>
+        </div>
+    </div>
+    
+    
+  
+
+
+<!--######################### first container ######################-->
+
+
+<div class="container">
+  <div class="row mt-4">
+    <!--COLUMN1-->
+    <div class="col-sm">
+      <form id="msform10" class="row text-center" action="{{ url_for('invest') }}" method="POST" style="border:1.5px dashed #a6a6a6">
+              <div class = "row justify-content-center">
+                <p></p> 
+                <h4>Invest in the movie:</h4>
+                <div class="col text-center">
+                    <span class="d-inline-block mb-2" tabindex="0" data-toggle="tooltip" title="Insert your address!">
+                      <button type="button" class="btn btn-primary btn-light" disabled>Address:</button>
+                    </span>
+                    <select class="form-control form-control-sm mt-2" id="inputAddress10", name='inputAddress10'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                  </div>
+              <div class = "row justify-content-center">    
+                  <div class="col text-center">
+                    <span class="d-inline-block mb-2 mt-2" tabindex="0" data-toggle="tooltip" title="Insert the amount of Ether you want to invest">
+                      <button type="button" class="btn btn-primary btn-light" disabled>Amount:</button>
+                    </span>
+                    <input type="float" class="form-control form-control-sm" id="inputEther10" name="inputEther10">
+                  </div>
+                </div>
+              </div>
+              <div class = "row justify-content-center"> 
+                <div class="text-center mt-2">
+                  <button type="submit" class="btn btn-success" id="buyTokens" value="buyTokens">BUY</button>
+                </div>
+                <p></p>
+              </div>
+            </form>
+        
+    </div>
+    <!--COLUMN2-->
+    <div class="col-sm" style="border:1.5px dashed #a6a6a6">
+      <form id="msform13" class="row text-center" action="{{ url_for('invest') }}" method="POST">
+            <div class = "row justify-content-center"> 
+            <p></p>
+            <h4> Has the contract closed? </h4>
+                <div class="col text-center">
+                    <select class="form-control form-control-sm mt-4" id="inputAddress12", name='inputAddress12'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                    <button type="submit" class="btn btn-secondary mt-2" id="finalize" name="finalize">Finalize</button>
+                </div>
+            </div>
+        </form>
+        <form id="msform11" class="row ext-center" action="{{ url_for('invest') }}" method="POST">
+              <div class = "row justify-content-center">
+                <div class="col text-center">
+                  <select class="form-control form-control-sm mt-4" id="inputAddress11", name='inputAddress11'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                  <button type="submit" class="btn btn-dark mt-2" id="claimRefunds" value="claimRefunds">Claim refund</button>
+        
+                  </div>
+                <p></p>
+              </div>
+            </form>
+    </div>
+  <!--COLUMN3-->
+    <div class="col-sm" style="border:1.5px dashed #a6a6a6">
+      <form id="msform15" class="row  text-center" action="{{ url_for('invest') }}" method="POST">
+        <div class = "row justify-content-center mt-3">
+            <h4> Important data: </h4>
+            <div class="col text-center mt-2">
+              <h6> Visualize free tokens/total tokens ratio </h6>
+              <select class="form-control form-control-sm mt-2" id="inputAddress15", name='inputAddress15'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+              <button type="submit" class="btn btn-dark mt-2 md-2" id="seeRatio" value="seeRatio">See ratio</button>
+            </div>
+            <div class="row text-center mt-4">
+              <div class="col text-center ">
+                <h6> Value of a token </h6>
+                <p style="font-family:'Lucida Console', monospace"> 1 ETH | {{rate}} $ </p>
+              </div>
+              <div class="col text-center">
+                <h6> Goal</h6>
+                <p style="font-family:'Lucida Console', monospace"> {{goal}} ETH </p>
+              </div>
+            </div>
+          </div>
+      </form> 
+    </div>
+  </div>
+</div>
+
+
+
+<!--######################### second container ######################-->
+
+
+
+<div class="container">
+  <div class="row">
+    <!--###### COLUMN1 ######-->
+    <div class="col-sm">
+
+
+    <!--pop-up messages here-->
+
+      {% if show_result %}
+          <div class = "d-flex justify-content-sm-center">
+            <div class="alert alert-success text-center mt-4" role="alert">
+              <h5 class="alert-heading">Well done!</h5>
+              <p>{{message}}</p>
+              <!--<hr>
+              <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>-->
+            </div>              
+          </div>
+        {% endif %}
+    
+        {% if show_warning %}
+          <div class = "d-flex justify-content-sm-center">
+            <div class="alert alert-danger text-center mt-4" role="alert">
+              <h5 class="alert-heading">Something went wrong!</h5>
+              <p>{{message}}</p>
+            </div>              
+          </div>
+        {% endif %}
+
+    <!--end pop-up messages here-->
+
+      
+    </div>
+    <!--###### COLUMN2 #######-->
+    <div class="col-sm" style="border:1.5px dashed #a6a6a6">
+      <form id="msform14" class="row text-center" action="{{ url_for('invest') }}" method="POST">
+          <div class = "row justify-content-center"> 
+          <p></p>
+          <h4> Is the film currently streaming? </h4>
+              <div class="col text-center">
+                  <select class="form-control form-control-sm mt-4" id="inputAddress13", name='inputAddress13'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+                  <button type="submit" class="btn btn-secondary mt-2" id="fixbalance" value="fixbalance">Fix Balance</button>
+              </div>
+          </div>
+      </form>
+      <form id="msform15" class="row  text-center" action="{{ url_for('invest') }}" method="POST">
+        <div class = "row justify-content-center">
+            <div class="col text-center">
+              <select class="form-control form-control-sm mt-4" id="inputAddress14", name='inputAddress14'>
+                      <option>Select the address</option>
+                      <option>Producer</option>
+                      <option>Collaborator 1</option>
+                      <option>Collaborator 2</option>
+                      <option>Investor 1</option>
+                      <option>Investor 2</option>
+                      <option>Investor 3</option>
+                      <option>Investor 4</option>
+                      <option>Consumer 1</option>
+                      <option>Consumer 2</option>
+                      <option>Consumer 3</option>
+                    </select>
+              <button type="submit" class="btn btn-dark mt-2" id="claimDividend" value="claimDividend">Claim dividend</button>
+            </div>
+          </div>
+      </form>
+          
+    <p></p>
+    </div>
+  <!--##### COLUMN3 ######-->
+    <div class="col-sm">
+       <div class = "d-flex justify-content-sm-center">
+              <div class="alert alert-light" role="alert">
+                <p> Using <strong>Finalize</strong>, callable by all partecipants after crowdsale's closing time, you can allow all
+                  partecipants to do different actions like <strong>Claim refund</strong> or <strong>Fix balance</strong>. <br>
+                  Claim your money back with <strong>Claim refund</strong> in case the film is not going to be produced. <br>
+                  By clicking <strong>Fix balance</strong> and <strong>Claim dividend</strong> you gather your yearly earnings coming
+                  from the movie streaming!
+                  </p>
+              </div>              
+            </div>   
+    </div>
+  </div>
+</div>
+
+{% endblock %}
