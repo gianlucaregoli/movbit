@@ -1,0 +1,4 @@
+web3==5.13.1
+cryptocompare==0.7.3
+pandas==1.1.5
+flask==1.1.2

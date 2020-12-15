@@ -23,10 +23,12 @@ def defaultAccount(default_address:str):
 
 # SET MIGRATIONS FILE
 def updateInput(name:str, symbol:str, decimals, closingTime:int, ethRate, cap:int, goal:int, wallet:str):
+    
     try:
         os.remove(os.getcwd()+'/input.json')
     except OSError:
         pass
+
     data = {}
     data['input'] = {'name':name, 'symbol':symbol, 'closingTime':closingTime, 'cap':cap, 'goal':goal}
     with open('./newMigrations/input.json', 'w') as outfile:
@@ -42,7 +44,11 @@ def updateInput(name:str, symbol:str, decimals, closingTime:int, ethRate, cap:in
     os.system("sed -i -e 's/cap=0/cap={}n/g' './migrations/2_deploy_contracts.js'".format(cap))
     os.system("sed -i -e 's/goal=0/goal={}n/g' './migrations/2_deploy_contracts.js'".format(goal))
     os.system("sed -i -e 's/wallet=0/wallet=\"{}\"/g' './migrations/2_deploy_contracts.js'".format(wallet))
-    #os.remove("./migrations/2_deploy_contracts.js-e")
+
+    try:
+        os.remove("./migrations/2_deploy_contracts.js-e")
+    except OSError:
+        pass
 
 def transact():
     os.system("truffle migrate --reset > tmp")

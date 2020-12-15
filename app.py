@@ -42,6 +42,11 @@ def convertToUnix(s):
     return int(datetime.datetime(int(year),int(month),int(day),\
          int(hour), int(minute)).timestamp())
 
+def convertToDate(s):
+    timestamp = datetime.datetime.fromtimestamp(int(s))
+    date = timestamp.strftime("%d/%m/%Y %H:%M")
+    return date
+
 def updateBalances():
     # app.balances = {}
     for name in app.name_accounts:
@@ -67,7 +72,8 @@ def freetoken():
 
 @app.route("/investor.html")
 def investor():
-    return render_template("investor.html", content="Testing", rate=exchange_rate, goal=app.goal/(10**18), movie=app.name)
+    return render_template("investor.html", content="Testing", rate=exchange_rate, goal=app.goal/(10**18), 
+                                            movie=app.name, clDate=convertToDate(app.cloTime))
 
 @app.route("/consumer.html")
 def consumer():
@@ -75,7 +81,8 @@ def consumer():
 
 @app.route("/ethraised.html")
 def ethRaised():
-    return render_template("ethraised.html", content="Testing", movie=app.name)
+    return render_template("ethraised.html", content="Testing", movie=app.name,
+                                             clDate=convertToDate(app.cloTime))
 
 @app.route("/accounts.html")
 def accountsBalances():
@@ -86,17 +93,6 @@ def accountsBalances():
     df_balances = df_balances.to_html(classes='table table-striped table-hover', header='true', justify='left')
     return render_template("accounts.html", content="Testing", data=df_balances)
 
-#@app.before_request
-#def assignAddress():
-#    tokenAddress,crowdAddress,wallet,accounts = deploy.importAccount()
-#    tokenContract = deploy.connectContracts(tokenAddress,'MovBitFreeToken')
-#    crowdContract = deploy.connectContracts(crowdAddress,'MovBitCrowdsale')
-#    assert str(type(tokenContract))=="<class 'web3._utils.datatypes.Contract'>"
-#    assert str(type(crowdContract))=="<class 'web3._utils.datatypes.Contract'>"
-#    g.tokenContract = tokenContract
-#    g.crowdContract = crowdContract
-#    g.wallet = str(wallet)
-#    g.accounts = accounts
 
 def assignAddress():
     tokenAddress,crowdAddress,wallet,cap,goal,cloTime, name = deploy.importAccount()

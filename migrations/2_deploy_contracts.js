@@ -3,14 +3,14 @@ var MovBitFreeToken = artifacts.require("MovBitFreeToken");
 var MovBitCrowdsale = artifacts.require("MovBitCrowdsale");
 
 // Input variables
-const name="PulpF";
+const name="Pulp Fiction";
 const symbol="PLP";
 const decimals=18;
-const closingTime=1607987400;
+const closingTime=1608029700;
 const ethRate=1;
 const cap=100000000000000000000n;
 const goal=10000000000000000000n;
-const wallet="0x3C1722A54d042d5C6716CDf797D06a4c474a1AE6";
+const wallet="0x4FA32E2c217B5f95203f83632B7E1F3b65c30aF5";
 
 // Migration
 module.exports = function(deployer,network,accounts) {
