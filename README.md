@@ -11,6 +11,7 @@ All the transactions are handled by blockchain-based smart contracts written in 
 The following repository contains a web-application (that can be launched locally) built with Python `flask` package, that is a simulation prototype of how the whole system would work. 
 
 The program has been tested on MacOS and Linux, while we recommend to Windows users to download the Docker image at this link:
+https://hub.docker.com/repository/docker/simone97/movbit
 
 ### How to install it
 
