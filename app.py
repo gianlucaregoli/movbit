@@ -28,7 +28,7 @@ accounts = []
 for i in range(10):
     accounts.append(w3.eth.accounts[i])
 app.name_accounts = ['Producer','Collaborator 1', 'Collaborator 2', 'Investor 1', 'Investor 2',\
-     'Investor 3', 'Investor 4', 'Consumer 1', 'Consumer 2', 'Consumer 3']
+                    'Investor 3', 'Investor 4', 'Consumer 1', 'Consumer 2', 'Consumer 3']
 app.accounts = {app.name_accounts[i]:accounts[i] for i in range(10)}
 
 exchange_rate = cryptocompare.get_price('ETH',curr='USD')['ETH']['USD']
@@ -51,7 +51,7 @@ def updateBalances():
     # app.balances = {}
     for name in app.name_accounts:
         app.balances[name] = w3.eth.getBalance(app.accounts[name])
-    print(app.balances)
+    
 
 ## APP
 @app.route("/" , methods=['GET', 'POST'])
@@ -215,7 +215,7 @@ def invest():
         tx_hash = buy_toks.transact({"from": address, "value": int(amount)})
         print(tx_hash)
         return render_template('investor.html', show_result = True, message = 'Transaction Done!',
-        rate=exchange_rate, goal=app.goal/(10**18))
+        rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Not allow buy tokens')
 
@@ -226,7 +226,7 @@ def invest():
         tx_hash = claim_Refund.transact({"from": address})
         print(tx_hash)
         return render_template('investor.html', show_result = True, message = 'Refund Done!',
-        rate=exchange_rate, goal=app.goal/(10**18))
+        rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Not allow refund')
 
@@ -237,7 +237,7 @@ def invest():
         tx_hash = finalize_Crowdsale.transact({"from": address})
         print(tx_hash)
         return render_template('investor.html', show_result = True, message = 'The contract has been finalized!',
-        rate=exchange_rate, goal=app.goal/(10**18))
+        rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Finalize not allowed')
 
@@ -248,7 +248,7 @@ def invest():
         tx_hash = fix_Balance.transact({"from": address})
         print(tx_hash)
         return render_template('investor.html', show_result = True, message = 'The balance has been fixed!',
-        rate=exchange_rate, goal=app.goal/(10**18))
+        rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Balance already fixed')
 
@@ -259,7 +259,7 @@ def invest():
         tx_hash = claim_Dividend.transact({"from": address})
         print(tx_hash)
         return render_template('investor.html', show_result = True, message = 'Dividend claimed!',
-        rate=exchange_rate, goal=app.goal/(10**18))
+        rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Dividend not claimed')
 
@@ -270,12 +270,13 @@ def invest():
         totalToken = app.crowdContract.functions.totalAmountToken().call()
         ratio = round(freeToken/totalToken,2)
         return render_template('investor.html', show_result = True, message = 'Free tokens/total tokens ratio is: {}'.format(ratio),
-        rate=exchange_rate, goal=app.goal/(10**18))
+        rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Free token ratio not found')
 
     
-    return render_template('investor.html', show_warning = True, message = 'Try again!', rate=exchange_rate, goal=app.goal/(10**18))
+    return render_template('investor.html', show_warning = True, message = 'Try again!', 
+                rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
 
 @app.route("/consumer.html", methods=['GET','POST'])
 def watch():
@@ -286,11 +287,13 @@ def watch():
         buy_film = app.crowdContract.functions.buyFilm()
         tx_hash = buy_film.transact({"from": address,"value": int(price)})
         print(tx_hash)
-        return render_template('consumer.html', show_result = True, show_video = True, message = 'Start watch the movie!')
+        return render_template('consumer.html', show_result = True, show_video = True, message = 'Start watch the movie!',
+                                movie=app.name)
     except:
         print('Not purchased')
 
-    return render_template('consumer.html', show_warning = True, message = 'Try again!')
+    return render_template('consumer.html', show_warning = True, message = 'Try again!',
+                            movie=app.name)
 
 
 @app.route("/ethraised.html", methods=['GET','POST'])
@@ -298,7 +301,9 @@ def crowdsaleControl():
     try:
         address = app.accounts[str(request.form['inputAddress16'])]
         wei_raised = app.crowdContract.functions.weiRaised().call()
-        return render_template('ethraised.html', show_result = True, show_video = True, message = f'ETH Raised: {round(int(wei_raised)/(10**18),3)}')
+        return render_template('ethraised.html', show_result = True, show_video = True,
+                             message = f'ETH Raised: {round(int(wei_raised)/(10**18),3)}',
+                             movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Not wei Raised!')
 
@@ -307,7 +312,8 @@ def crowdsaleControl():
         finalize_Crowdsale = app.crowdContract.functions.finalize()
         tx_hash = finalize_Crowdsale.transact({"from": address})
         print(tx_hash)
-        return render_template('ethraised.html', show_result = True, message = 'The contract has been finalized!')
+        return render_template('ethraised.html', show_result = True, message = 'The contract has been finalized!',
+                                            movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Finalize not allowed')
 
@@ -316,13 +322,15 @@ def crowdsaleControl():
         finalize_Crowdsale = app.crowdContract.functions.filmUploaded()
         tx_hash = finalize_Crowdsale.transact({"from": address})
         print(tx_hash)
-        return render_template('ethraised.html', show_result = True, message = 'Our community can now buy your movie!')
+        return render_template('ethraised.html', show_result = True, message = 'Our community can now buy your movie!',
+                                    movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Film not uploaded yet!')
 
-    return render_template('ethraised.html', show_warning = True, message = 'Try again!')
+    return render_template('ethraised.html', show_warning = True, message = 'Try again!',
+                            movie=app.name,clDate=convertToDate(app.cloTime))
 
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

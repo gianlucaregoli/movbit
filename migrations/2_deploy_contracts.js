@@ -6,11 +6,11 @@ var MovBitCrowdsale = artifacts.require("MovBitCrowdsale");
 const name="Pulp Fiction";
 const symbol="PLP";
 const decimals=18;
-const closingTime=1608029700;
+const closingTime=1608048360;
 const ethRate=1;
 const cap=100000000000000000000n;
 const goal=10000000000000000000n;
-const wallet="0x4FA32E2c217B5f95203f83632B7E1F3b65c30aF5";
+const wallet="0x05107eDa40861a3411570eaBb2D67ed6340123b1";
 
 // Migration
 module.exports = function(deployer,network,accounts) {
