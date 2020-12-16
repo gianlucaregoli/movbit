@@ -7,23 +7,17 @@ import re
 from web3 import Web3, HTTPProvider
 os.chdir(os.getcwd())
 
-## CONNECT TO THE CHAIN
+# Open a new bash window and run ganache-cli
 os.system("ttab -w ganache-cli")
-time.sleep(5) #necessary to give ganache the time to start
-# truffle development blockchain address
+time.sleep(5) #necessary to give ganache the time to start before conneting to the port
+# Connect to ganache-cli port
 blockchain_address = 'http://127.0.0.1:8545'
 # Client instance to interact with the blockchain
 w3 = Web3(HTTPProvider(blockchain_address))
 
-
-# SET DEFAULT ACCOUNT
-def defaultAccount(default_address:str):
-    return default_address
-
-
-# SET MIGRATIONS FILE
+# Insert the input coming from the producer in the 2_deploy_contracts in migrations folder: 
+# LOOK AT IT FOR MORE INFORMATION ABOUT HOW THE DEPLOYMNET WORKS!!!
 def updateInput(name:str, symbol:str, decimals, closingTime:int, ethRate, cap:int, goal:int, wallet:str):
-    
     try:
         os.remove(os.getcwd()+'/input.json')
     except OSError:
@@ -50,10 +44,17 @@ def updateInput(name:str, symbol:str, decimals, closingTime:int, ethRate, cap:in
     except OSError:
         pass
 
+# The following function calls truffle which actually run the deployment of the contracts
+# It creates also a temporary file with the information of the deployment which are necessary
+# in the app.py file
 def transact():
-    os.system("truffle migrate --reset > tmp")
+    os.system("sudo truffle migrate --reset > tmp")
     print(open('tmp', 'r').read())
 
+# importAccount function imports some information which are going to be used in the web app:
+# particularly it stores the address of the contract that generates the tokens, the address of
+# the crowdsale contract, the wallet address of the producer and finally
+# cap, goal, closing time and name inserted by the producer
 def importAccount():
     output = open('tmp')
     s = output.read(40000)
@@ -70,6 +71,7 @@ def importAccount():
     name = data['input']['name']
     return tokenAddress,crowdAddress, wallet, cap, goal, cloTime, name
 
+# the following function connects web3 instance to the contracts
 def connectContracts(addressContract,name):
     compiled_contract_path = f'./build/contracts/{name}.json'
     token_address = addressContract

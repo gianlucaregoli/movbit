@@ -1,3 +1,5 @@
+// This is a default file of Truffle
+
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.8.0;
 

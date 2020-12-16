@@ -1,4 +1,9 @@
 /**
+ * Truffle file to connect to the right network port when deploying the contracts (the right solc version
+ * for compiling is automatically detected by truffle)
+*/
+
+/**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
  * compilation and testing. Uncomment the ones you need or modify

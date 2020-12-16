@@ -1,21 +1,21 @@
-from flask import Flask, redirect, url_for, render_template, request, jsonify, g
-import web3
-from web3 import Web3, HTTPProvider
-import MovBitBackEnd as deploy
 import os
-import datetime
-import pandas as pd
-import cryptocompare
+import web3
 import random
+import datetime
+import cryptocompare
+import pandas as pd
+import MovBitBackEnd as deploy
+from web3 import Web3, HTTPProvider
+from flask import Flask, redirect, url_for, render_template, request, jsonify, g
 
 os.chdir(os.getcwd())
+app = Flask(__name__)
 
+# Connect to ganache-cli port
 blockchain_address = 'http://127.0.0.1:8545'
 w3 = Web3(HTTPProvider(blockchain_address))
 
-app = Flask(__name__)
-
-#Define variable available for all request
+#Define variable available for all requests
 app.tokenContract = 0
 app.crowdContract = 0
 app.wallet = 0
@@ -31,10 +31,10 @@ app.name_accounts = ['Producer','Collaborator 1', 'Collaborator 2', 'Investor 1'
                     'Investor 3', 'Investor 4', 'Consumer 1', 'Consumer 2', 'Consumer 3']
 app.accounts = {app.name_accounts[i]:accounts[i] for i in range(10)}
 
-exchange_rate = cryptocompare.get_price('ETH',curr='USD')['ETH']['USD']
+exchange_rate = cryptocompare.get_price('ETH',curr='USD')['ETH']['USD'] # used to have real time eth/dollar exchange rate
 
 ## FUNCTIONS
-
+# Convert from usual date-time format to unix one which read by the MovBitCrowdsale contract
 def convertToUnix(s):
     date,time = s.split(" ")
     day,month,year = date.split("/")
@@ -42,18 +42,19 @@ def convertToUnix(s):
     return int(datetime.datetime(int(year),int(month),int(day),\
          int(hour), int(minute)).timestamp())
 
+# Convert from unix date-time format to usal one
 def convertToDate(s):
     timestamp = datetime.datetime.fromtimestamp(int(s))
     date = timestamp.strftime("%d/%m/%Y %H:%M")
     return date
 
+# Update balances of the accounts table when called
 def updateBalances():
-    # app.balances = {}
     for name in app.name_accounts:
         app.balances[name] = w3.eth.getBalance(app.accounts[name])
     
 
-## APP
+## APP REQUESTS
 @app.route("/" , methods=['GET', 'POST'])
 def home():
     return render_template("index.html", content='Testing')
@@ -329,8 +330,6 @@ def crowdsaleControl():
 
     return render_template('ethraised.html', show_warning = True, message = 'Try again!',
                             movie=app.name,clDate=convertToDate(app.cloTime))
-
-
 
 if __name__ == "__main__":
     app.run()
