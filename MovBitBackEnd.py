@@ -44,7 +44,7 @@ def updateInput(name:str, symbol:str, decimals, closingTime:int, ethRate, cap:in
     except OSError:
         pass
 
-# The following function calls truffle which actually run the deployment of the contracts
+# The following function calls truffle which actually runs the deployment of the contracts
 # It creates also a temporary file with the information of the deployment which are necessary
 # in the app.py file
 def transact():
