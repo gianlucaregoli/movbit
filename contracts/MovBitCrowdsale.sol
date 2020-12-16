@@ -41,7 +41,7 @@ contract MovBitFreeToken is Ownable {
         admin = msg.sender;
     }
 
-    function openSell(address _address) public onlyOwner { // fucntion used to assign to the MovBitCrowdsale contract the role of minter:
+    function openSell(address _address) public onlyOwner { // function used to assign to the MovBitCrowdsale contract the role of minter:
         token.addMinter(_address);                         // in this way the contract mints tokens as needed by the investors
     }
 }
@@ -122,7 +122,7 @@ contract MovBitCrowdsale is CappedCrowdsale, RefundableCrowdsale, MintedCrowdsal
         return tokenContract.balanceOf(_address);
     }
 
-    // *Series of functions to handle the mapping created by the producer before paying actually the free tokens to his colaborators
+    // *Series of functions to handle the mapping created by the producer before paying actually the free tokens to his collaborators
     // Assign or remove free tokens to a certain address (used by web app)
     function add_royalties(address _add_id, int _num_tokens) public onlyOwner {
         Royalties[_add_id] += _num_tokens;
@@ -162,7 +162,7 @@ contract MovBitCrowdsale is CappedCrowdsale, RefundableCrowdsale, MintedCrowdsal
         super._postValidatePurchase(beneficiary, weiAmount);
     }
 
-    // ***THE REFUNDABLE PHASE IS HANDLE BY OPENZEPPELIN FUNCTIONS!
+    // ***THE REFUNDABLE PHASE IS HANDLED BY OPENZEPPELIN FUNCTIONS!
 
     // ***IN CASE THE FILM HAS BEEN PRODUCED
     // The producer call this funtion to allow consumer to buy the film (used by web app)
@@ -179,7 +179,7 @@ contract MovBitCrowdsale is CappedCrowdsale, RefundableCrowdsale, MintedCrowdsal
     }
 
     // ***HANDLE DIVIDEND
-    // Check number of tokens sold to a specific address based on the mapping created within the smart contract (not used by we app)
+    // Check number of tokens sold to a specific address based on the mapping created within the smart contract (not used by web app)
     function depositsOf(address payee) public view returns (uint256) {
         return _deposits[payee];
     }
