@@ -29,7 +29,6 @@ pip install -r requirements.txt
 If you use Linux, run in the folder:
 ```
 sed -i -e 's/truffle migrate/sudo truffle migrate/g' './MovBitBackEnd.py'
-rm MovBitBackEnd.py-e
 python3 app.py
 ```
 You will be asked to insert your password in one of the bashes opened

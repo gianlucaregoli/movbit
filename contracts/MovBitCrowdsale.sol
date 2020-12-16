@@ -11,21 +11,32 @@ import "./source/Ownable.sol";
 // The following three smart contracts contain more functions and variables than the one needed for movbit app
 
 contract MovBitToken is ERC20Mintable, ERC20Detailed, ERC20Burnable{
+<<<<<<< HEAD
     /**
      * This token has been created using OpenZeppelin library v 2.5 (located in folder source)
      * It is mintable and burnable even though for movbit app only mintable would be fine
     */
+=======
+    // This token has been created using OpenZeppelin library v 2.5 (located in folder source)
+    // It is mintable and burnable even though for movbit app only mintable would be fine
+>>>>>>> cdfe5dc47d0b85febb85e6ffc78ef0995fe5a875
     constructor (string memory _name, string memory _symbol, uint8 _decimals) public ERC20Detailed(_name, _symbol, _decimals) {
         _mint(msg.sender, 0); // The initial supply is set to zero because for our web app there is no need for the producer to set it: 
     }                         // the tokens are automatically minted through pay_out_free and buyTokens functions
 }
 
 contract MovBitFreeToken is Ownable {
+<<<<<<< HEAD
     /**
      * MovBitFreeToken is the first contract to be deployed; MovBitToken is deployed inside here because it permits not to generate token 
      * directly in the account of the producer
      * The input here are: name, symbol and decimals of the token
     */
+=======
+    // MovBitFreeToken is the first contract to be deployed; MovBitToken is deployed inside here because it permits not to generate token 
+    // directly in the account of the producer
+    // The input here are: name, symbol and decimals of the token
+>>>>>>> cdfe5dc47d0b85febb85e6ffc78ef0995fe5a875
     using SafeMath for uint256;
     using SafeMath for int;
 
@@ -45,6 +56,7 @@ contract MovBitFreeToken is Ownable {
 }
 
 contract MovBitCrowdsale is CappedCrowdsale, RefundableCrowdsale, MintedCrowdsale, Ownable {
+<<<<<<< HEAD
     /**
      * This crowdsale contract is capped, minted, refundable and timed (derived from refundable):
      * - capped: the producer sets the cap amount of token to be raised;
@@ -55,6 +67,18 @@ contract MovBitCrowdsale is CappedCrowdsale, RefundableCrowdsale, MintedCrowdsal
      * MovBitCrowdsale is the second contract to be deployed and the input are: opening Time, closing Time, rate, cap, wallet of the
      * producer, goal and finally address of the previous deployed token contract.
     */
+=======
+
+    // This crowdsale contract is capped, minted, refundable and timed (derived from refundable):
+    // - capped: the producer sets the cap amount of token to be raised;
+    // - minted: the contract automatically creates tokens based on the amount bought through buyTokens function;
+    // - refundable: the producer sets a goal and if not reached the investors can call their ether back;
+    // - timed: the producer chooses opening Time and closing Time even though in movbit app he sets only closing time
+    //   in order to handle a problem raised (explained in 2_deploy_contracts.js file in migrations folder).
+    // MovBitCrowdsale is the second contract to be deployed and the input are: opening Time, closing Time, rate, cap, wallet of the
+    // producer, goal and finally address of the previous deployed token contract.
+
+>>>>>>> cdfe5dc47d0b85febb85e6ffc78ef0995fe5a875
     using SafeMath for int;
     using SafeMath for uint256;
     using Address for address payable;
@@ -198,12 +222,19 @@ contract MovBitCrowdsale is CappedCrowdsale, RefundableCrowdsale, MintedCrowdsal
     function totalAmountToken() view public returns(uint256){
         return SafeMath.add(Crowdsale.weiRaised().mul(Crowdsale.rate()),freetokenSold);
     }
+<<<<<<< HEAD
     /** 
      * The following function has been implemented in order to be called once a year by anyone to set the balance of the Crowdsale contract    
      * at that point in time and permits to claim the dividend based on that amount (used by we app)
      * This has been the way that we found to solve the claim dividend problem of a smart contract with continously ether coming in
      * by consumer buyng the film
     */
+=======
+    // The following function has been implemented in order to be called once a year by anyone to set the balance of the Crowdsale contract    
+    // at that point in time and permits to claim the dividend based on that amount (used by we app)
+    // This has been the way that we found to solve the claim dividend problem of a smart contract with continously ether coming in
+    // by consumer buyng the film
+>>>>>>> cdfe5dc47d0b85febb85e6ffc78ef0995fe5a875
     function fixTimeBalance() public {
         require(TimedCrowdsale.hasClosed() == true, "Crowdsale not closed yet!");
         require(filmUpload == true, "Film not yet uploaded!");
