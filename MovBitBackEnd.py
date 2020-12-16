@@ -48,7 +48,7 @@ def updateInput(name:str, symbol:str, decimals, closingTime:int, ethRate, cap:in
 # It creates also a temporary file with the information of the deployment which are necessary
 # in the app.py file
 def transact():
-    os.system("sudo truffle migrate --reset > tmp")
+    os.system("truffle migrate --reset > tmp")
     print(open('tmp', 'r').read())
 
 # importAccount function imports some information which are going to be used in the web app:
