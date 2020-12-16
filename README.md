@@ -8,7 +8,18 @@ The aim of MovBit is to give space to independent movie directors and screenwrit
 All the transactions are handled by blockchain-based smart contracts written in Solidity 
 
 ##### What you find here
-The following repository contains a web-application (that can be launched locally) built with Python `flask` package, that is a simulation prototype of how the whole system would work. 
+The following repository contains a web-application (that can be launched locally) built with Python `flask` package, that is a simulation prototype of how the whole system would work.
+
+The repo is structured as follow:
+- contracts contains all the solidity code;
+- migrations includes the files necessary for the local deployment of the contracts;
+- newMigrations contains the template of the deployment file;
+- templates includes all the html files of the app;
+- truffle-config.js is a required file by truffle for the deployment;
+- MovBitBackEnd.py contains functions as support to app.py;
+- app.py is the main file.
+
+Enjoy the reading of the codes by looking at app.py and its dependencies reported in the comments and also at MovBitCrowdsale.sol in "contracts" folder for the solitdy part.
 
 The program has been tested on MacOS and Linux, while we recommend to Windows users to download the Docker image at this link:
 https://hub.docker.com/repository/docker/simone97/movbit
