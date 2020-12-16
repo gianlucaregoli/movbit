@@ -15,7 +15,7 @@ app = Flask(__name__)
 blockchain_address = 'http://127.0.0.1:8545'
 w3 = Web3(HTTPProvider(blockchain_address))
 
-#Define variable available for all requests
+# Define variable available for all requests and create the mapping of the ganache accounts
 app.tokenContract = 0
 app.crowdContract = 0
 app.wallet = 0
@@ -34,7 +34,7 @@ app.accounts = {app.name_accounts[i]:accounts[i] for i in range(10)}
 exchange_rate = cryptocompare.get_price('ETH',curr='USD')['ETH']['USD'] # used to have real time eth/dollar exchange rate
 
 ## FUNCTIONS
-# Convert from usual date-time format to unix one which read by the MovBitCrowdsale contract
+# Convert from usual date-time format to unix one which is read by the MovBitCrowdsale contract 
 def convertToUnix(s):
     date,time = s.split(" ")
     day,month,year = date.split("/")
@@ -48,53 +48,15 @@ def convertToDate(s):
     date = timestamp.strftime("%d/%m/%Y %H:%M")
     return date
 
-# Update balances of the accounts table when called
+# Update balances of the accounts table
 def updateBalances():
     for name in app.name_accounts:
         app.balances[name] = w3.eth.getBalance(app.accounts[name])
-    
 
-## APP REQUESTS
-@app.route("/" , methods=['GET', 'POST'])
-def home():
-    return render_template("index.html", content='Testing')
-
-@app.route("/screenwriter.html")
-def home_1():
-    return render_template("screenwriter.html", content = "Testing", rate=exchange_rate)
-
-@app.route("/about.html")
-def about():
-    return render_template("about.html", content = "Testing")
-
-@app.route("/freetoken.html")
-def freetoken():
-    return render_template("freetoken.html", content="Testing", rate=exchange_rate)
-
-@app.route("/investor.html")
-def investor():
-    return render_template("investor.html", content="Testing", rate=exchange_rate, goal=app.goal/(10**18), 
-                                            movie=app.name, clDate=convertToDate(app.cloTime))
-
-@app.route("/consumer.html")
-def consumer():
-    return render_template("consumer.html", content="Testing", movie=app.name)
-
-@app.route("/ethraised.html")
-def ethRaised():
-    return render_template("ethraised.html", content="Testing", movie=app.name,
-                                             clDate=convertToDate(app.cloTime))
-
-@app.route("/accounts.html")
-def accountsBalances():
-    updateBalances()
-    df_balances = pd.DataFrame.from_dict(app.balances, orient="index").reset_index()
-    df_balances = df_balances.rename(columns={'index':'Account', 0:'Balance (ETH)'})
-    df_balances['Balance (ETH)'] = df_balances['Balance (ETH)'].astype(float)/(10**18)        
-    df_balances = df_balances.to_html(classes='table table-striped table-hover', header='true', justify='left')
-    return render_template("accounts.html", content="Testing", data=df_balances)
-
-
+# assignAddress is called when the producer deploys the contracts by filling the input and clicking START on the home page:
+# the scope of it is importing in this file some input of the producer and the addresses of the deployed contracts.
+# This function calls importAccount and connectContracts in the MovBitBackEnd.py so refers to this last file to better 
+# understand what they does.
 def assignAddress():
     tokenAddress,crowdAddress,wallet,cap,goal,cloTime, name = deploy.importAccount()
     tokenContract = deploy.connectContracts(tokenAddress,'MovBitFreeToken')
@@ -108,8 +70,55 @@ def assignAddress():
     app.goal = goal
     app.cloTime = cloTime
     app.name = name
-    print(accounts,cap,goal,cloTime, name)
 
+## APP REQUESTS
+# Connect the home page
+@app.route("/")
+def home():
+    return render_template("index.html", content='Testing')
+# Connect the Start Project page where the producer inserts the input of the contracts
+@app.route("/screenwriter.html")
+def home_1():
+    return render_template("screenwriter.html", content = "Testing", rate=exchange_rate)
+# Connect the About page
+@app.route("/about.html")
+def about():
+    return render_template("about.html", content = "Testing")
+# Connect the Free Tokens page where the producer handles the tokens to the collaborators
+@app.route("/freetoken.html")
+def freetoken():
+    return render_template("freetoken.html", content="Testing", rate=exchange_rate)
+# Connect the Invest page of the investor
+@app.route("/investor.html")
+def investor():
+    return render_template("investor.html", content="Testing", rate=exchange_rate, goal=app.goal/(10**18), 
+                                            movie=app.name, clDate=convertToDate(app.cloTime))
+# Connect the Watch page where the consumer buys the film
+@app.route("/consumer.html")
+def consumer():
+    return render_template("consumer.html", content="Testing", movie=app.name)
+# Connect the Producer Dashboard page
+@app.route("/ethraised.html")
+def ethRaised():
+    return render_template("ethraised.html", content="Testing", movie=app.name,
+                                             clDate=convertToDate(app.cloTime))
+# Connect the Accounts page where reported the ganache accounts
+@app.route("/accounts.html")
+def accountsBalances():
+    updateBalances()
+    df_balances = pd.DataFrame.from_dict(app.balances, orient="index").reset_index()
+    df_balances = df_balances.rename(columns={'index':'Account', 0:'Balance (ETH)'})
+    df_balances['Balance (ETH)'] = df_balances['Balance (ETH)'].astype(float)/(10**18)        
+    df_balances = df_balances.to_html(classes='table table-striped table-hover', header='true', justify='left')
+    return render_template("accounts.html", content="Testing", data=df_balances)
+
+# inputDeploy is the bridge between the gui and the actual deployment of the contracts through truffle:
+# it first converts the formats and the types of the inputs coming from the producer to the right format
+# asked by the MovBitCrowdsale contract. The exchange value against ether of each token has been fixed to 1,
+# so token value is one Wei, and also the number of decimals is fixed to 18: we have handled all the number conversions.
+# Then it calls "transact" (located in MovBitBackEnd.py) to run the deployment and assignAddress to have
+# back some information as described above. Finally, it assigns to the Crowdsale contract the role of minter:
+# this is necessary for the crowdsale to work (more information on 2_deploy_contracts.js and MovBitCrowdsale.sol)
 @app.route("/screenwriter.html", methods=['GET','POST'])
 def inputDeploy():
     tName = request.form['inputName']
@@ -134,8 +143,15 @@ def inputDeploy():
 
     return render_template("screenwriter.html", show_modal=True, rate=exchange_rate)
 
+# NOTE: all the form of the web app has an input even though in few of them is not necessary;
+# this is due to the fact that we were not able to connect flask route with the html buttons but
+# only to the input field. This should be improved!
+
+# Below all the try-except that permits to the producer to send free tokens to his collaborators.
+# For more information about the smart contract functions refers to MovBitCrowdsale.sol
 @app.route("/freetoken.html", methods=['GET','POST'])
 def addBeneficiary():
+    # Add collaborator to the mapping with the assigned tokens
     try:
         address = app.accounts[str(request.form['inputAddress1'])]
         amount = request.form['inputEther1']
@@ -148,7 +164,7 @@ def addBeneficiary():
         rate=exchange_rate)
     except:
         print('Not adding!')
-
+    # Remove tokens already assigned to a collaborator
     try:
         address_ = app.accounts[str(request.form['inputAddress2'])]
         amount_ = request.form['inputEther2']
@@ -161,7 +177,7 @@ def addBeneficiary():
         rate=exchange_rate)
     except:
         print('Not removing!')
-
+    # Check the amount of tokens assigned to a collaborator
     try:
         address = app.accounts[str(request.form['inputAddress3'])]
         balance = app.crowdContract.functions.Royalties(address).call()
@@ -170,7 +186,7 @@ def addBeneficiary():
         rate=exchange_rate)
     except:
         print('No check!')
-
+    # Actually pay out all the free tokens assigned
     try:
         address = app.accounts[str(request.form['inputAddress7'])]
         if address == str(app.wallet):
@@ -181,7 +197,7 @@ def addBeneficiary():
             rate=exchange_rate)
     except:
         print('Not pay out free!')
-
+    # Check the balance of the inserted accounts
     try:
         address = app.accounts[str(request.form['inputAddress4'])]
         balance = app.crowdContract.functions.balanceOf(str(address)).call()
@@ -190,7 +206,7 @@ def addBeneficiary():
         rate=exchange_rate)
     except:
         print('No check!')
-
+    # The producer, once finieshed to remunerate the collaborators, call this function to start the actual crowdsale
     try:
         address = app.accounts[str(request.form['inputAddress8'])]
         if address == str(app.wallet):
@@ -201,12 +217,12 @@ def addBeneficiary():
     except:
         print('Not allow crowdsale')
 
-
     return render_template("freetoken.html", show_warning = True, message='Try again!', rate=exchange_rate)
 
-
+# Below all the try-except that permits to the investor to buy tokens, claim refund and claim the dividend.
 @app.route("/investor.html", methods=['GET','POST'])
 def invest():
+    # Buy tokens
     try:
         address = app.accounts[str(request.form['inputAddress10'])]
         amount = request.form['inputEther10']
@@ -219,7 +235,7 @@ def invest():
         rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Not allow buy tokens')
-
+    # Claim refund if the goal is not reached
     try:
         address = app.accounts[str(request.form['inputAddress11'])]
         
@@ -230,7 +246,9 @@ def invest():
         rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Not allow refund')
-
+    # Finalize the contract and two possible paths:
+    # - goal reached and all the ether inside the crodwsale contract goes to the account of the producer
+    # - goal not reached and investors can claim their ether back
     try:
         address = app.accounts[str(request.form['inputAddress12'])]
         
@@ -241,7 +259,8 @@ def invest():
         rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Finalize not allowed')
-
+    # Fix the amount of ether inside the crowdsale contract in a certain point in time and based on this amount
+    # investors have their dividend (this functions can be called once a year by anyone)
     try:
         address = app.accounts[str(request.form['inputAddress13'])]
         
@@ -252,7 +271,7 @@ def invest():
         rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Balance already fixed')
-
+    # Claim dividend one a year
     try:
         address = app.accounts[str(request.form['inputAddress14'])]
         
@@ -263,7 +282,7 @@ def invest():
         rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Dividend not claimed')
-
+    # Check the proportion of free tokens against the total amount of tokens that has been bought
     try:
         address = app.accounts[str(request.form['inputAddress15'])]
         
@@ -275,10 +294,10 @@ def invest():
     except:
         print('Free token ratio not found')
 
-    
     return render_template('investor.html', show_warning = True, message = 'Try again!', 
                 rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
 
+# Below the try-except that permits to the consumer to buy the Film
 @app.route("/consumer.html", methods=['GET','POST'])
 def watch():
     try:
@@ -296,9 +315,10 @@ def watch():
     return render_template('consumer.html', show_warning = True, message = 'Try again!',
                             movie=app.name)
 
-
+# Below the try-except that permits to the producer to check how the ether raised is going and confirm that the film has been uploaded
 @app.route("/ethraised.html", methods=['GET','POST'])
 def crowdsaleControl():
+    # Check the amount of ether raised
     try:
         address = app.accounts[str(request.form['inputAddress16'])]
         wei_raised = app.crowdContract.functions.weiRaised().call()
@@ -307,7 +327,7 @@ def crowdsaleControl():
                              movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Not wei Raised!')
-
+    # Also the producer can finalize the contract
     try:
         address = app.accounts[str(request.form['inputAddress31'])]
         finalize_Crowdsale = app.crowdContract.functions.finalize()
@@ -317,7 +337,7 @@ def crowdsaleControl():
                                             movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Finalize not allowed')
-
+    # The producer allow consumer to buy film confirming that it has been uploaded on the platform
     try:
         address = app.accounts[str(request.form['inputAddress32'])]
         finalize_Crowdsale = app.crowdContract.functions.filmUploaded()
