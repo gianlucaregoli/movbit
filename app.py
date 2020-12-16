@@ -55,8 +55,8 @@ def updateBalances():
 
 # assignAddress is called when the producer deploys the contracts by filling the input and clicking START on the home page:
 # the scope of it is importing in this file some input of the producer and the addresses of the deployed contracts.
-# This function calls importAccount and connectContracts in the MovBitBackEnd.py so refers to this last file to better 
-# understand what they does.
+# This function calls importAccount and connectContracts in the MovBitBackEnd.py so refer to this last file to better 
+# understand what they do.
 def assignAddress():
     tokenAddress,crowdAddress,wallet,cap,goal,cloTime, name = deploy.importAccount()
     tokenContract = deploy.connectContracts(tokenAddress,'MovBitFreeToken')
@@ -206,7 +206,7 @@ def addBeneficiary():
         rate=exchange_rate)
     except:
         print('No check!')
-    # The producer, once finieshed to remunerate the collaborators, call this function to start the actual crowdsale
+    # The producer, once finished to remunerate the collaborators, call this function to start the actual crowdsale
     try:
         address = app.accounts[str(request.form['inputAddress8'])]
         if address == str(app.wallet):
@@ -219,7 +219,7 @@ def addBeneficiary():
 
     return render_template("freetoken.html", show_warning = True, message='Try again!', rate=exchange_rate)
 
-# Below all the try-except that permits to the investor to buy tokens, claim refund and claim the dividend.
+# Below all the try-except that allows the investor to buy tokens, claim refund and claim the dividend.
 @app.route("/investor.html", methods=['GET','POST'])
 def invest():
     # Buy tokens
@@ -271,7 +271,7 @@ def invest():
         rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Balance already fixed')
-    # Claim dividend one a year
+    # Claim dividend once a year
     try:
         address = app.accounts[str(request.form['inputAddress14'])]
         
@@ -297,7 +297,7 @@ def invest():
     return render_template('investor.html', show_warning = True, message = 'Try again!', 
                 rate=exchange_rate, goal=app.goal/(10**18), movie=app.name,clDate=convertToDate(app.cloTime))
 
-# Below the try-except that permits to the consumer to buy the Film
+# Below the try-except that allow the consumer to buy the Film
 @app.route("/consumer.html", methods=['GET','POST'])
 def watch():
     try:
@@ -315,7 +315,7 @@ def watch():
     return render_template('consumer.html', show_warning = True, message = 'Try again!',
                             movie=app.name)
 
-# Below the try-except that permits to the producer to check how the ether raised is going and confirm that the film has been uploaded
+# Below the try-except that allows the producer to check how the ether raised is going and confirm that the film has been uploaded
 @app.route("/ethraised.html", methods=['GET','POST'])
 def crowdsaleControl():
     # Check the amount of ether raised
@@ -337,7 +337,7 @@ def crowdsaleControl():
                                             movie=app.name,clDate=convertToDate(app.cloTime))
     except:
         print('Finalize not allowed')
-    # The producer allow consumer to buy film confirming that it has been uploaded on the platform
+    # The producer allows consumer to buy film confirming that it has been uploaded on the platform
     try:
         address = app.accounts[str(request.form['inputAddress32'])]
         finalize_Crowdsale = app.crowdContract.functions.filmUploaded()
