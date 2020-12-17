@@ -48,3 +48,8 @@ If you use Mac, run directly:
 ```
 python3 app.py
 ```
+
+### Demo
+
+Here you can find a 5 minutes video that explains how the web-app works with an example:
+https://www.dropbox.com/s/3xgqpu4kiats9fd/MovBit-Demo.mp4?dl=0
